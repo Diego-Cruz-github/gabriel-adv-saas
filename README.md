@@ -1,27 +1,52 @@
 # Legal SaaS - Law Firm Automation
 
-Automation platform for law firms. Handles client triage, digital onboarding, and document processing with sub-1-minute response times.
+Client triage and digital onboarding automation for a law office.
+
+> **Case overview** - the production code is private (client engagement). This page
+> documents the problem, the architecture and the engineering decisions.
+
+## The problem
+
+Every prospective client arrived through the same channel and waited for a
+human to read, classify and reply. Urgent cases sat in the same queue as
+routine ones, and document collection dragged over days of back-and-forth.
+
+## The solution
+
+- **Automatic triage by legal area** (civil, labor, social security) from the
+  first contact, with urgency classification before any human review.
+- **Digital onboarding**: automated document collection with guided steps -
+  the client sends everything once, structured.
+- **Webhook-driven integrations** connecting the capture form, the messaging
+  automation and the firm's CRM.
+- Response time to first contact: **under one minute**.
+
+## Architecture
+
+```
+Capture form --> [ Webhooks ] --> [ Backend (Python + Node.js) ] --> CRM
+                                        |
+                          [ Triage: area + urgency rules ]
+                                        |
+                          [ Automated messaging + onboarding ]
+```
 
 ## Stack
 
-- **Backend:** Python, Node.js
-- **APIs:** Webhooks, REST APIs
-- **Infra:** Nginx, Docker
-- **Security:** JWT authentication, input validation
+| Layer | Technology |
+|---|---|
+| Backend | Python, Node.js |
+| Integration | Webhooks, REST APIs |
+| Security | JWT authentication, server-side input validation |
+| Infra | Nginx, Docker |
 
-## Features
+## Engineering notes
 
-- Automatic client triage by legal area (Civil, Labor, Social Security)
-- Urgency classification before human review
-- Digital onboarding with automated document collection
-- CRM integration via webhooks
-- Capture form connected to automated messaging
-- Lead response time under 1 minute
+- **Rules before AI**: triage uses deterministic rules - in a legal context,
+  predictable classification beats probabilistic cleverness.
+- **Validation at the edge**: every webhook payload is validated server-side
+  before touching business logic.
 
-## Scripts
+## Status
 
-- `scripts/health_check.py` - Service health monitoring
-
----
-
-*Private repository - client project*
+Delivered. Sole engineer: backend, integrations and infrastructure.
