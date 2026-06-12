@@ -1,4 +1,5 @@
 # Legal SaaS - Law Firm Automation
+> **English** | [Português (BR)](README.pt-BR.md)
 
 Client triage and digital onboarding automation for a law office.
 
